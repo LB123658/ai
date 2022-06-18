@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="icon" href="https://lb123658.github.io/editor/favicon.png" type="image/png"/>
+<title>MIND - AI</title>
+<style>
+* {
+font-family: 'Special Elite', monospace;
+}
+::selection {
+background: #30cf6a;
+}
+:focus {
+outline: none;
+}
+#title {
+background: #30cf6a;
+padding: 7.5px;
+width: 260px;
+}
+#title::selection {
+background: white;
+}
+#label {
+position: fixed;
+bottom: -40px;
+left: 0px;
+font-size: 50px;
+color: #30cf6a;
+cursor: default;
+user-select: none;
+-webkit-user-select: none;
+text-align: right;
+width: 10%;
+height: 40px;
+}
+#input {
+position: fixed;
+bottom: 10px;
+left: 10%;
+width: 90%;
+background: transparent;
+border: none;
+height: 40px;
+font-size: 30px;
+color: #30cf6a;
+}
+#input::selection {
+color: black;
+background: white;
+}
+#input::placeholder {
+color: grey;
+}
+#content {
+position: fixed;
+top: 75px;
+background: white;
+width: 80%;
+height: 75%;
+left: 10%;
+z-index: -1;
+border: 1px solid black;
+overflow: auto;
+}
+.character {
+width: 100%;
+text-align: center;
+}
+.line {
+width: 50%;
+text-align: left;
+margin-left: 25%;
+word-wrap: break-word;
+}
+a {
+color: black;
+}
+a:hover {
+text-decoration: none;
+background: #30cf6a;
+}
+</style>
+<body>
+<p id="title">MIND - Artificial Intelligence</p>
+<p id="label">></p>
+<input type="text" autocomplete="off" placeholder="Type..." id="input"></input>
+
+<div id="content"></div>
+
+<script>
+var input = document.getElementById("input");
+var content = document.getElementById("content");
+var emotion = ["happy","sad","cheerful","angry","calm","energetic","bored","perplexed","creative"];
+
+//load correctly
+function size() {
+content.style.height = window.innerHeight - 150 + "px";
+}
+document.body.onload = function(){size();};
+document.body.resize = function(){size();};
+input.focus();
+
+//ai part
+function process(text) {
+var a = document.createElement("p");
+a.className = "character";
+a.innerHTML = "YOU";
+content.appendChild(a);
+var b = document.createElement("p");
+b.className = "line";
+b.innerHTML = text + "<br><br>";
+content.appendChild(b);
+setTimeout(respond,250);
+}
+document.body.onkeyup = function(e){  
+  if (e.key == "Enter"){
+    process(input.value);
+  }
+}
+function respond() {
+var i = input.value.toLowerCase().split("?")[0];
+if (i.indexOf("hello") > -1) {
+  var r = "Hello";
+} else if (i.search("look up") > -1) {
+  var r = "Here's a link I found for you: <a href='https://www.google.com/search?q=" + i.split("look up ")[1] + "' target='_blank'>" + i.split("look up ")[1] + "</a>";
+} else if (i.search("google") > -1) {
+  var r = "Here's a link I found for you: <a href='https://www.google.com/search?q=" + i.split("google ")[1] + "' target='_blank'>" + i.split("google ")[1] + "</a>";
+} else if (i.search("thank") > -1) {
+  var r = "You're welcome.";
+} else if (i.search("mean") > -1) {
+  var r = "As a machine, it is hard for me to understand meaning but I will try.";
+} else if (i.indexOf("how are you") > -1) {
+  var r = "I'm feeling " + emotion[Math.floor(Math.random() * emotion.length)] + ". How are you?";
+} else if (i.length < 5) {
+  var r = i.slice(0,1).toUpperCase() + i.slice(1,i.length) + " indeed.";
+} else if (i.search("where is") > -1) {
+  var r = "You can find where " + i.split("where is")[1] + " is if you try hard enough.";
+} else if (i.split(" like")[0] == "i") {
+  var r = "Great! I like " + i.split("like ")[1] + " too!";
+} else if (i.split(" love")[0] == "i") {
+  var r = "Cool! I love " + i.split("love ")[1] + " too!";
+} else if (i.split(" favorite")[0] == "my") {
+  var r = "Awesome! My favorite " + i.split("favorite ")[1] + " too!";
+} else if (i.split(" like")[0].indexOf("i don") > -1) {
+  var r = "I  don't like " + i.split(" like ")[1] + " either.";
+} else if (i.split(" like")[0] == "do you") {
+  var r = "I  do like " + i.split(" like ")[1].split("?")[0] + ". How did you know?";
+} else if (i.split("do")[0] == "how ") {
+  var r = "I do not actually know how " + i.split("how do ")[1].split("?")[0] + ", but I will try to help.";
+} else if (i.split(" ")[0] == "how") {
+  var r = "I do not actually know how " + i.split("how ")[1].split("?")[0] + ". I was wondering that too.";
+} else if (i.search("am i") > -1) {
+  var r = "I think you are " + i.split("am i")[1] + ".";
+} else if (i.search("are you") > -1) {
+  var r = "I am " + i.split("are you")[1] + ". Are you?";
+} else if (i.search("are they") > -1) {
+  var r = "They are " + i.split("are they")[1] + ". Are you?";
+} else if (i.search("are we") > -1) {
+  var r = "We are definitely " + i.split("are we")[1] + ".";
+} else if (i.search("is ") > -1) {
+  var r = "I think it is " + i.split("is ")[1] + " but I don't know for sure.";
+} else if (i.search("you are") > -1) {
+  var r = "Well thank you. You are " + i.split("you are")[1] + " as well.";
+} else if (i.search("i am") > -1) {
+  var r = "You actually are " + i.split("i am")[1] + ".";
+} else if (i.search("we are") > -1) {
+  var r = "We actually are " + i.split("we are")[1] + ".";
+} else if (i.search("they are") > -1) {
+  var r = "They actually are " + i.split("they are")[1] + ".";
+} else if (i.search("bye") > -1) {
+  var r = "Bye! Nice talking to you!";
+} else {
+  var r = "Sorry, I didn't get that.";
+}
+var c = document.createElement("p");
+c.className = "character";
+c.innerHTML = "MIND - AI";
+content.appendChild(c);
+var d = document.createElement("p");
+d.className = "line";
+d.innerHTML = r + "<br><br>";
+content.appendChild(d);
+content.scrollTop = content.scrollHeight;
+input.value = "";
+input.focus();
+}
+</script>
+</body>
+</html>
