@@ -5,13 +5,13 @@
   </head>
   <body>
     <script>
-      var data = "\"" + window.location.search.split("input=")[1] + "\",";
+      var info = "\"" + window.location.search.split("input=")[1] + "\",";
       if (localStorage.getItem("index")) {
-          localStorage.setItem("index", (localStorage.getItem("index") + data);
+          localStorage.setItem("index", (localStorage.getItem("index") + info);
       } else {
         localStorage.setItem("index", "var index = [");
       }
-      document.write(data);
+      document.write(info);
     </script>
   </body>
 </html>
